@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>พาลุยท่องเที่ยว - ทะยานไปทุกที่ ที่ใจอยากไป</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Prompt for modern Thai typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        accent: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for things Tailwind doesn't cover easily */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+        }
+        .hero-pattern {
+            background-color: #0f172a;
+            background-image: radial-gradient(at 20% 30%, hsla(145, 63%, 32%, 1) 0px, transparent 50%),
+                              radial-gradient(at 80% 10%, hsla(162, 100%, 40%, 1) 0px, transparent 50%),
+                              radial-gradient(at 90% 80%, hsla(43, 96%, 56%, 0.5) 0px, transparent 50%),
+                              radial-gradient(at 10% 90%, hsla(142, 71%, 45%, 1) 0px, transparent 50%);
+        }
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #4ade80, #fbbf24);
+        }
+        .text-gradient-dark {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #16a34a, #d97706);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 30px -5px rgba(22, 163, 74, 0.15), 0 10px 10px -5px rgba(22, 163, 74, 0.1);
+        }
+        .float-anim {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased selection:bg-brand-300 selection:text-brand-900">
+
+    <nav class="glass-nav fixed w-full z-50 top-0 shadow-sm border-b border-brand-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0 flex items-center gap-2 group">
+                        <div class="w-10 h-10 bg-brand-600 text-white rounded-full flex items-center justify-center group-hover:bg-brand-500 transition-colors">
+                            <i class="fa-solid fa-leaf text-xl"></i>
+                        </div>
+                        <span class="font-bold text-2xl text-brand-800 tracking-tight">พาลุย<span class="text-brand-500">ท่องเที่ยว</span></span>
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex md:items-center md:space-x-8">
+                    <a href="#places" class="text-gray-600 hover:text-brand-600 font-medium transition-colors">สถานที่</a>
+                    <a href="#food" class="text-gray-600 hover:text-brand-600 font-medium transition-colors">อาหาร</a>
+                    <a href="#festivals" class="text-gray-600 hover:text-brand-600 font-medium transition-colors">เทศกาล</a>
+                    <a href="#planning" class="text-gray-600 hover:text-brand-600 font-medium transition-colors">การวางแผนเที่ยว</a>
+                    <a href="#" class="bg-gradient-to-r from-brand-500 to-brand-600 text-white px-6 py-2.5 rounded-full font-medium hover:from-brand-600 hover:to-brand-700 transition-all duration-300 shadow-lg shadow-brand-500/40 hover:shadow-brand-500/60 transform hover:-translate-y-0.5">เข้าสู่ระบบ</a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center md:hidden">
+                    <button type="button" id="mobile-menu-btn" class="text-gray-600 hover:text-brand-600 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-white border-t border-brand-100 absolute w-full shadow-lg" id="mobile-menu">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#places" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50">สถานที่</a>
+                <a href="#food" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50">อาหาร</a>
+                <a href="#festivals" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50">เทศกาล</a>
+                <a href="#planning" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-brand-600 hover:bg-brand-50">การวางแผนเที่ยว</a>
+                <div class="pt-4">
+                    <a href="#" class="block w-full text-center bg-brand-600 text-white px-4 py-3 rounded-xl font-medium hover:bg-brand-700">เข้าสู่ระบบ</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-20">
+        <!-- Hero Section -->
+        <section class="hero-pattern relative text-white overflow-hidden py-24 lg:py-32">
+            <!-- Decorative circle -->
+            <div class="absolute top-1/4 right-1/4 w-96 h-96 bg-accent-500 rounded-full opacity-20 blur-[100px] animate-pulse"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
+                <div class="lg:w-1/2 text-center lg:text-left">
+                    <span class="inline-flex items-center py-1.5 px-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-sm font-medium mb-6 shadow-lg">
+                        <span class="w-2 h-2 rounded-full bg-accent-400 mr-2 animate-ping"></span>
+                        <i class="fa-solid fa-map-location-dot mr-2 text-accent-400"></i> คู่มือเที่ยวฉบับสมบูรณ์
+                    </span>
+                    <h1 class="text-4xl md:text-5xl lg:text-7xl font-extrabold leading-tight mb-6">
+                        ออกเดินทางไปกับ <br>
+                        <span class="text-gradient">พาลุยท่องเที่ยว</span>
+                    </h1>
+                    <p class="text-lg text-gray-200 mb-8 max-w-2xl mx-auto lg:mx-0 font-light">
+                        ค้นพบสถานที่ใหม่ๆ ลิ้มรสอาหารท้องถิ่น สัมผัสเทศกาลตระการตา และวางแผนการเดินทางของคุณได้อย่างง่ายดาย เริ่มต้นการผจญภัยสุดคูลได้แล้ววันนี้
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#places" class="bg-gradient-to-r from-accent-500 to-accent-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-accent-400 hover:to-accent-500 transition-all duration-300 shadow-lg shadow-accent-500/40 transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                            เริ่มสำรวจเลย <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="#planning" class="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-lg">
+                            <i class="fa-regular fa-calendar-check text-brand-400"></i> วางแผนเที่ยว
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 w-full mt-10 lg:mt-0 relative">
+                    <!-- decorative elements behind image -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-400 to-accent-400 rounded-[2.5rem] transform rotate-3 scale-105 opacity-50 blur-lg"></div>
+                    <div class="relative rounded-[2rem] overflow-hidden shadow-2xl float-anim border-2 border-white/20">
+                        <img src="https://placehold.co/800x600/16a34a/ffffff?text=Travel+Thailand" alt="Travel Banner" class="w-full h-auto object-cover">
+                        <!-- overlay gradient -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Places Section -->
+        <section id="places" class="py-24 bg-gray-50 relative overflow-hidden">
+            <!-- abstract background blobs -->
+            <div class="absolute top-0 left-0 w-64 h-64 bg-brand-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-80 h-80 bg-accent-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform translate-x-1/3 translate-y-1/3"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-4xl font-extrabold mb-4 text-gradient-dark">สถานที่ท่องเที่ยวยอดฮิต</h2>
+                    <p class="text-gray-600 text-lg">รวบรวมพิกัดที่เที่ยวสวยๆ ทั้งทะเล ภูเขา และธรรมชาติที่ต้องไปเช็คอินให้ได้สักครั้ง</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Place Card 1 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 card-hover transition-all duration-300 group">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1587888746765-b77bfb3be373?auto=format&fit=crop&q=80&w=800" alt="Mountain" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute top-4 right-4 bg-gradient-to-r from-brand-500 to-brand-400 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                                <i class="fa-solid fa-mountain text-xs mr-1"></i> ภูเขา
+                            </div>
+                        </div>
+                        <div class="p-6 relative">
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg absolute -top-6 right-6 text-accent-500 text-xl border border-gray-100">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 mb-3 font-medium">
+                                <div class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center mr-2">
+                                    <i class="fa-solid fa-location-dot text-xs"></i>
+                                </div>
+                                เชียงใหม่
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">ดอยอินทนนท์</h3>
+                            <p class="text-gray-600 line-clamp-2 mb-4">สัมผัสอากาศหนาวเย็นตลอดทั้งปี ชมทะเลหมอก และธรรมชาติที่อุดมสมบูรณ์บนยอดดอยที่สูงที่สุดในประเทศไทย</p>
+                            <a href="#" class="inline-flex items-center text-brand-600 font-bold hover:text-brand-700 bg-brand-50 px-4 py-2 rounded-lg transition-colors">
+                                อ่านเพิ่มเติม <i class="fa-solid fa-arrow-right-long ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Place Card 2 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 card-hover transition-all duration-300 group">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://www.ananda.co.th/blog/thegenc/wp-content/uploads/2024/03/%E0%B8%94%E0%B8%B5%E0%B9%84%E0%B8%8B%E0%B8%99%E0%B9%8C%E0%B8%97%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%B1%E0%B8%87%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B9%84%E0%B8%94%E0%B9%89%E0%B8%95%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%8A%E0%B8%B7%E0%B9%88%E0%B8%AD-2024-05-23T123322.980.png" alt="ทะเลกระบี่" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute top-4 right-4 bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                                <i class="fa-solid fa-umbrella-beach text-xs mr-1"></i> ทะเล
+                            </div>
+                        </div>
+                        <div class="p-6 relative">
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg absolute -top-6 right-6 text-gray-300 hover:text-accent-500 transition-colors text-xl border border-gray-100">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 mb-3 font-medium">
+                                <div class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center mr-2">
+                                    <i class="fa-solid fa-location-dot text-xs"></i>
+                                </div>
+                                กระบี่
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">ทะเลกระบี่ (อ่าวไร่เลย์)</h3>
+                            <p class="text-gray-600 line-clamp-2 mb-4">น้ำทะเลใสแจ๋ว หาดทรายขาว และเรือหางยาวที่เป็นเอกลักษณ์ สวรรค์ของคนรักทะเลอย่างแท้จริง</p>
+                            <a href="#" class="inline-flex items-center text-brand-600 font-bold hover:text-brand-700 bg-brand-50 px-4 py-2 rounded-lg transition-colors">
+                                อ่านเพิ่มเติม <i class="fa-solid fa-arrow-right-long ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Place Card 3 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 card-hover transition-all duration-300 group">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1563492065599-3520f775eeed?auto=format&fit=crop&q=80&w=800" alt="Temple" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute top-4 right-4 bg-gradient-to-r from-accent-500 to-orange-400 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                                <i class="fa-brands fa-pageline text-xs mr-1"></i> วัฒนธรรม
+                            </div>
+                        </div>
+                        <div class="p-6 relative">
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg absolute -top-6 right-6 text-gray-300 hover:text-accent-500 transition-colors text-xl border border-gray-100">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 mb-3 font-medium">
+                                <div class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center mr-2">
+                                    <i class="fa-solid fa-location-dot text-xs"></i>
+                                </div>
+                                พระนครศรีอยุธยา
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">วัดไชยวัฒนาราม</h3>
+                            <p class="text-gray-600 line-clamp-2 mb-4">สถาปัตยกรรมที่งดงามริมฝั่งแม่น้ำเจ้าพระยา ร่องรอยประวัติศาสตร์ที่ทรงคุณค่าของราชธานีเก่า</p>
+                            <a href="#" class="inline-flex items-center text-brand-600 font-bold hover:text-brand-700 bg-brand-50 px-4 py-2 rounded-lg transition-colors">
+                                อ่านเพิ่มเติม <i class="fa-solid fa-arrow-right-long ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Place Card 4 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 card-hover transition-all duration-300 group">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1583688195864-42b7816cc56b?auto=format&fit=crop&q=80&w=800" alt="Phuket" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute top-4 right-4 bg-gradient-to-r from-yellow-500 to-orange-400 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                                <i class="fa-solid fa-city text-xs mr-1"></i> เมืองเก่า
+                            </div>
+                        </div>
+                        <div class="p-6 relative">
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg absolute -top-6 right-6 text-gray-300 hover:text-accent-500 transition-colors text-xl border border-gray-100">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 mb-3 font-medium">
+                                <div class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center mr-2">
+                                    <i class="fa-solid fa-location-dot text-xs"></i>
+                                </div>
+                                ภูเก็ต
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">ย่านเมืองเก่าภูเก็ต</h3>
+                            <p class="text-gray-600 line-clamp-2 mb-4">เดินเล่นชมสถาปัตยกรรมชิโน-โปรตุกีสสุดคลาสสิก ถ่ายรูปชิคๆ สัมผัสวิถีชีวิตและวัฒนธรรมท้องถิ่น</p>
+                            <a href="#" class="inline-flex items-center text-brand-600 font-bold hover:text-brand-700 bg-brand-50 px-4 py-2 rounded-lg transition-colors">
+                                อ่านเพิ่มเติม <i class="fa-solid fa-arrow-right-long ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Place Card 5 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 card-hover transition-all duration-300 group">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&q=80&w=800" alt="Khao Yai" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute top-4 right-4 bg-gradient-to-r from-green-500 to-emerald-400 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                                <i class="fa-solid fa-tree text-xs mr-1"></i> ธรรมชาติ
+                            </div>
+                        </div>
+                        <div class="p-6 relative">
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg absolute -top-6 right-6 text-gray-300 hover:text-accent-500 transition-colors text-xl border border-gray-100">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 mb-3 font-medium">
+                                <div class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center mr-2">
+                                    <i class="fa-solid fa-location-dot text-xs"></i>
+                                </div>
+                                นครราชสีมา
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">อุทยานแห่งชาติเขาใหญ่</h3>
+                            <p class="text-gray-600 line-clamp-2 mb-4">สูดอากาศบริสุทธิ์ใกล้กรุง สัมผัสธรรมชาติ ป่าไม้ น้ำตก และส่องสัตว์ป่าในวันหยุดพักผ่อน</p>
+                            <a href="#" class="inline-flex items-center text-brand-600 font-bold hover:text-brand-700 bg-brand-50 px-4 py-2 rounded-lg transition-colors">
+                                อ่านเพิ่มเติม <i class="fa-solid fa-arrow-right-long ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Place Card 6 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 card-hover transition-all duration-300 group">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&q=80&w=800" alt="Wat Arun" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute top-4 right-4 bg-gradient-to-r from-orange-500 to-red-400 text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-lg">
+                                <i class="fa-solid fa-vihara text-xs mr-1"></i> วัดสวยงาม
+                            </div>
+                        </div>
+                        <div class="p-6 relative">
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg absolute -top-6 right-6 text-gray-300 hover:text-accent-500 transition-colors text-xl border border-gray-100">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500 mb-3 font-medium">
+                                <div class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center mr-2">
+                                    <i class="fa-solid fa-location-dot text-xs"></i>
+                                </div>
+                                กรุงเทพมหานคร
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">วัดอรุณราชวราราม</h3>
+                            <p class="text-gray-600 line-clamp-2 mb-4">ชมความวิจิตรงดงามของพระปรางค์ริมฝั่งแม่น้ำเจ้าพระยา สัญลักษณ์แห่งความสวยงามของเมืองไทย</p>
+                            <a href="#" class="inline-flex items-center text-brand-600 font-bold hover:text-brand-700 bg-brand-50 px-4 py-2 rounded-lg transition-colors">
+                                อ่านเพิ่มเติม <i class="fa-solid fa-arrow-right-long ml-2 transform group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-16 text-center">
+                    <button class="px-8 py-4 bg-white border-2 border-brand-200 text-brand-700 rounded-full font-bold text-lg hover:bg-brand-50 hover:border-brand-400 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto gap-2">
+                        ดูสถานที่ทั้งหมด <i class="fa-solid fa-compass text-accent-500 text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Food Section -->
+        <section id="food" class="py-20 bg-brand-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row gap-12 items-center">
+                    <div class="lg:w-1/2">
+                        <div class="grid grid-cols-2 gap-4">
+                            <img src="https://cdn.pixabay.com/photo/2018/07/11/02/09/tom-yum-goong-3530188_1280.jpg" alt="ต้มยำกุ้ง" class="rounded-2xl w-full h-64 object-cover transform translate-y-8 shadow-lg">
+                            <img src="https://cdn.pixabay.com/photo/2017/01/24/20/30/pad-thai-2006136_1280.jpg" alt="ผัดไทย" class="rounded-2xl w-full h-64 object-cover shadow-lg">
+                        </div>
+                    </div>
+                    <div class="lg:w-1/2">
+                        <span class="text-brand-600 font-bold tracking-wider uppercase text-sm mb-2 block">ลิ้มรสความอร่อย</span>
+                        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">อาหารท้องถิ่นที่ห้ามพลาด</h2>
+                        <p class="text-gray-600 text-lg mb-6">
+                            การเดินทางจะไม่สมบูรณ์หากไม่ได้สัมผัสกับรสชาติอาหารของแต่ละพื้นที่ ประเทศไทยขึ้นชื่อเรื่องสตรีทฟู้ดและอาหารท้องถิ่นที่มีเอกลักษณ์เฉพาะตัว
+                        </p>
+                        
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 mt-1">
+                                    <i class="fa-solid fa-bowl-food"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-bold text-gray-900">ภาคเหนือ</h4>
+                                    <p class="text-gray-600">ข้าวซอย น้ำพริกหนุ่ม ไส้อั่ว รสชาติกลมกล่อม</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 mt-1">
+                                    <i class="fa-solid fa-pepper-hot"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-bold text-gray-900">ภาคอีสาน</h4>
+                                    <p class="text-gray-600">ส้มตำ ลาบ น้ำตก รสชาติจัดจ้าน แซ่บถึงใจ</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 mt-1">
+                                    <i class="fa-solid fa-fish"></i>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="text-lg font-bold text-gray-900">ภาคใต้</h4>
+                                    <p class="text-gray-600">แกงไตปลา คั่วกลิ้ง หมูฮ้อง เผ็ดร้อนด้วยเครื่องเทศ</p>
+                                </div>
+                            </li>
+                        </ul>
+                        
+                        <a href="#" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-brand-600 hover:bg-brand-700">
+                            ค้นหาร้านอาหารเด็ด
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Festivals Section -->
+        <section id="festivals" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-3xl font-bold text-brand-800 mb-4">เทศกาลและประเพณี</h2>
+                    <p class="text-gray-600 text-lg">เข้าร่วมสนุกสนานและสัมผัสวัฒนธรรมอันดีงามผ่านเทศกาลต่างๆ ตลอดทั้งปี</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Festival 1 -->
+                    <div class="group relative rounded-2xl overflow-hidden cursor-pointer h-80">
+                        <img src="https://images.unsplash.com/photo-1587123906660-f1b297cce041?auto=format&fit=crop&q=80&w=800" alt="Songkran" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="inline-block px-3 py-1 bg-brand-500 text-white text-xs font-bold rounded-full mb-2">เมษายน</span>
+                            <h3 class="text-2xl font-bold text-white mb-1">เทศกาลสงกรานต์</h3>
+                            <p class="text-gray-300 text-sm line-clamp-2">สนุกสนานกับการเล่นน้ำต้อนรับปีใหม่ไทยทั่วประเทศ</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Festival 2 -->
+                    <div class="group relative rounded-2xl overflow-hidden cursor-pointer h-80">
+                        <img src="https://images.unsplash.com/photo-1542159804-0ee064293f77?auto=format&fit=crop&q=80&w=800" alt="Loy Krathong" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="inline-block px-3 py-1 bg-brand-500 text-white text-xs font-bold rounded-full mb-2">พฤศจิกายน</span>
+                            <h3 class="text-2xl font-bold text-white mb-1">ประเพณีลอยกระทง</h3>
+                            <p class="text-gray-300 text-sm line-clamp-2">ขอขมาพระแม่คงคา พร้อมชมความงดงามของแสงเทียนริมแม่น้ำ</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Festival 3 -->
+                    <div class="group relative rounded-2xl overflow-hidden cursor-pointer h-80">
+                        <img src="https://images.unsplash.com/photo-1533601550993-9c869fb0a5b8?auto=format&fit=crop&q=80&w=800" alt="Festival" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <span class="inline-block px-3 py-1 bg-brand-500 text-white text-xs font-bold rounded-full mb-2">มิถุนายน</span>
+                            <h3 class="text-2xl font-bold text-white mb-1">ประเพณีผีตาโขน</h3>
+                            <p class="text-gray-300 text-sm line-clamp-2">ตื่นตากับหน้ากากสีสันสดใสและการละเล่นพื้นบ้านที่จังหวัดเลย</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Planning Section -->
+        <section id="planning" class="py-24 relative overflow-hidden">
+            <!-- Background with cool gradient map -->
+            <div class="absolute inset-0 bg-gray-900"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-brand-900/90 via-gray-900/90 to-brand-900/90 mix-blend-multiply"></div>
+            <!-- Decorative grid -->
+            <div class="absolute inset-0" style="background-image: radial-gradient(#22c55e 1px, transparent 1px); background-size: 40px 40px; opacity: 0.1;"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <span class="text-accent-400 font-bold tracking-wider uppercase text-sm mb-2 block">Step by step</span>
+                    <h2 class="text-4xl font-extrabold text-white mb-4">การวางแผนเที่ยวให้ปัง</h2>
+                    <p class="text-gray-300 text-lg">เตรียมตัวให้พร้อมก่อนออกเดินทาง ด้วย 4 ขั้นตอนง่ายๆ จากเรา</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Step 1 -->
+                    <div class="bg-white/10 backdrop-blur-lg p-8 rounded-3xl border border-white/20 text-center hover:bg-white/15 transition-all duration-300 group transform hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(74,222,128,0.2)]">
+                        <div class="w-20 h-20 bg-gradient-to-br from-brand-400 to-brand-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold mx-auto mb-6 transform group-hover:rotate-6 transition-transform shadow-lg">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-white">1. หาไอเดีย</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">ค้นหาสถานที่ที่คุณสนใจ เช็คสภาพอากาศ และฤดูกาลที่เหมาะสม</p>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="bg-white/10 backdrop-blur-lg p-8 rounded-3xl border border-white/20 text-center hover:bg-white/15 transition-all duration-300 group transform hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(251,191,36,0.2)] mt-0 lg:mt-8">
+                        <div class="w-20 h-20 bg-gradient-to-br from-accent-400 to-accent-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold mx-auto mb-6 transform group-hover:-rotate-6 transition-transform shadow-lg">
+                            <i class="fa-solid fa-ticket-simple"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-white">2. จองที่พัก/ตั๋ว</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">เปรียบเทียบราคาและจองล่วงหน้าเพื่อให้ได้ดีลที่ดีที่สุด</p>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="bg-white/10 backdrop-blur-lg p-8 rounded-3xl border border-white/20 text-center hover:bg-white/15 transition-all duration-300 group transform hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(56,189,248,0.2)]">
+                        <div class="w-20 h-20 bg-gradient-to-br from-sky-400 to-blue-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold mx-auto mb-6 transform group-hover:rotate-6 transition-transform shadow-lg">
+                            <i class="fa-solid fa-suitcase-rolling"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-white">3. จัดกระเป๋า</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">เตรียมเสื้อผ้า ของใช้ส่วนตัว และยาสามัญให้พร้อมตามสภาพพื้นที่</p>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="bg-white/10 backdrop-blur-lg p-8 rounded-3xl border border-white/20 text-center hover:bg-white/15 transition-all duration-300 group transform hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(236,72,153,0.2)] mt-0 lg:mt-8">
+                        <div class="w-20 h-20 bg-gradient-to-br from-pink-400 to-rose-600 text-white rounded-2xl flex items-center justify-center text-3xl font-bold mx-auto mb-6 transform group-hover:-rotate-6 transition-transform shadow-lg">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 text-white">4. ลุยเลย!</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">ออกไปเก็บเกี่ยวประสบการณ์ ถ่ายภาพสวยๆ และสร้างความทรงจำ</p>
+                    </div>
+                </div>
+
+                <div class="mt-20 text-center">
+                    <button class="bg-gradient-to-r from-accent-400 to-accent-600 text-white px-10 py-5 rounded-full font-bold text-xl hover:from-accent-500 hover:to-accent-700 transition-all duration-300 shadow-[0_0_40px_rgba(245,158,11,0.5)] transform hover:scale-105">
+                        สร้างแผนการเดินทางของคุณ <i class="fa-solid fa-wand-magic-sparkles ml-2 animate-pulse"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8 border-t-4 border-brand-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                <!-- Brand Info -->
+                <div>
+                    <a href="#" class="flex items-center gap-2 mb-6">
+                        <div class="w-10 h-10 bg-brand-500 text-white rounded-full flex items-center justify-center">
+                            <i class="fa-solid fa-leaf text-xl"></i>
+                        </div>
+                        <span class="font-bold text-2xl text-white tracking-tight">พาลุย<span class="text-brand-500">ท่องเที่ยว</span></span>
+                    </a>
+                    <p class="text-gray-400 text-sm mb-6">
+                        เว็บไซต์คู่ใจนักเดินทาง ที่จะพาคุณไปค้นพบประสบการณ์ใหม่ๆ ทั่วประเทศไทย ครบจบในที่เดียว ทั้งที่เที่ยว ที่กิน และกิจกรรม
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-brand-600 hover:text-white transition-colors">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-brand-600 hover:text-white transition-colors">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-brand-600 hover:text-white transition-colors">
+                            <i class="fa-brands fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-brand-600 hover:text-white transition-colors">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-l-4 border-brand-500 pl-3">เมนูลัด</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#places" class="text-gray-400 hover:text-brand-400 transition-colors"><i class="fa-solid fa-angle-right text-xs mr-2"></i>สถานที่ท่องเที่ยว</a></li>
+                        <li><a href="#food" class="text-gray-400 hover:text-brand-400 transition-colors"><i class="fa-solid fa-angle-right text-xs mr-2"></i>แนะนำอาหาร</a></li>
+                        <li><a href="#festivals" class="text-gray-400 hover:text-brand-400 transition-colors"><i class="fa-solid fa-angle-right text-xs mr-2"></i>เทศกาลสำคัญ</a></li>
+                        <li><a href="#planning" class="text-gray-400 hover:text-brand-400 transition-colors"><i class="fa-solid fa-angle-right text-xs mr-2"></i>ทิปส์การเดินทาง</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Popular -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-l-4 border-brand-500 pl-3">ยอดนิยม</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors"><i class="fa-solid fa-angle-right text-xs mr-2"></i>ที่เที่ยวภาคเหนือ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors"><i class="fa-solid fa-angle-right text-xs mr-2"></i>ทะเลภาคใต้</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors"><i class="fa-solid fa-angle-right text-xs mr-2"></i>ไหว้พระอยุธยา</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-brand-400 transition-colors"><i class="fa-solid fa-angle-right text-xs mr-2"></i>คาเฟ่เขาใหญ่</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-l-4 border-brand-500 pl-3">รับข่าวสาร</h4>
+                    <p class="text-gray-400 text-sm mb-4">สมัครรับอีเมลเพื่อรับโปรโมชั่นที่พักและตั๋วเครื่องบินราคาพิเศษ</p>
+                    <form class="flex flex-col gap-2">
+                        <input type="email" placeholder="กรอกอีเมลของคุณ" class="bg-gray-800 border border-gray-700 text-white px-4 py-2.5 rounded-lg focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500">
+                        <button type="button" class="bg-brand-600 text-white px-4 py-2.5 rounded-lg font-medium hover:bg-brand-700 transition-colors">สมัครสมาชิก</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-sm">
+                    &copy; 2026 พาลุยท่องเที่ยว (Pha Lui Thong Thiao). สงวนลิขสิทธิ์.
+                </p>
+                <div class="flex gap-4 text-sm text-gray-500">
+                    <a href="#" class="hover:text-brand-400">นโยบายความเป็นส่วนตัว</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-brand-400">เงื่อนไขการใช้งาน</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when clicking a link
+        const mobileLinks = menu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Add shadow to navbar on scroll
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-md');
+                nav.classList.remove('shadow-sm');
+            } else {
+                nav.classList.add('shadow-sm');
+                nav.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body>
+</html>
